@@ -8,13 +8,13 @@
 #include <fstream>
 using namespace std;
 typedef long long ll;
-const int operatorLimit = 3; //¸ù¾İĞèÒª¿ÉÒÔµ÷ÕûËãÊ½ÔËËã·ûÏŞÖÆ
-int numLimit, countLimit;//¿ØÖÆÌ¨²ÎÊı:Êı×Ö´óĞ¡ÏŞÖÆ£¬Êä³öËãÊ½¸öÊı
+const int operatorLimit = 3; //æ ¹æ®éœ€è¦å¯ä»¥è°ƒæ•´ç®—å¼è¿ç®—ç¬¦é™åˆ¶
+int numLimit, countLimit;//æ§åˆ¶å°å‚æ•°:æ•°å­—å¤§å°é™åˆ¶ï¼Œè¾“å‡ºç®—å¼ä¸ªæ•°
 class Fraction {
 private:
-	ll numerator, denominator;//ÓÃ¼Ù·ÖÊı´æ´¢
-	void reduction() {//Í¨·Ö
-		if (denominator == 0) return;//·ÖÄ¸ÎªÁãµ÷ÕûÊ§°Ü
+	ll numerator, denominator;//ç”¨å‡åˆ†æ•°å­˜å‚¨
+	void reduction() {//é€šåˆ†
+		if (denominator == 0) return;//åˆ†æ¯ä¸ºé›¶è°ƒæ•´å¤±è´¥
 		ll numsign = 1, densign = 1;
 		if (numerator < 0 && denominator < 0)
 			numerator *= -1, denominator *= -1;
@@ -25,7 +25,7 @@ private:
 			densign *= -1;  denominator *= -1;
 		}
 		ll gcd = numerator, tmp, tmpdenominator = denominator;
-		while (tmpdenominator != 0) {//µü´úÇógcd,ÌØÊâÇé¿ö:gcd(0,x) = x
+		while (tmpdenominator != 0) {//è¿­ä»£æ±‚gcd,ç‰¹æ®Šæƒ…å†µ:gcd(0,x) = x
 			tmp = gcd;
 			gcd = tmpdenominator;
 			tmpdenominator = tmp % tmpdenominator;
@@ -34,26 +34,26 @@ private:
 		numerator *= numsign; denominator *= densign;
 	}
 public:
-	Fraction() {//ÎŞ²Î¹¹Ôì³õÊ¼»¯È«0
+	Fraction() {//æ— å‚æ„é€ åˆå§‹åŒ–å…¨0
 		numerator = 0; denominator = 0;
 	}
-	Fraction(ll tmpnumerator, ll tmpdenominator) {//ÓĞ²Î¹¹Ôì
+	Fraction(ll tmpnumerator, ll tmpdenominator) {//æœ‰å‚æ„é€ 
 		numerator = tmpnumerator; denominator = tmpdenominator;
 		reduction();
 	}
-	Fraction(const Fraction& x) {//¿½±´¹¹Ôì
+	Fraction(const Fraction& x) {//æ‹·è´æ„é€ 
 		numerator = x.numerator; denominator = x.denominator;
 	}
 	void random_init() {
 		denominator = rand() % numLimit + 1;//[1 ~ 10]
-		numerator = rand() % (denominator * numLimit) + 1;//·Ö×Ó/·ÖÄ¸ (0 ~ 10]
+		numerator = rand() % (denominator * numLimit) + 1;//åˆ†å­/åˆ†æ¯ (0 ~ 10]
 		reduction();
 	}
 	bool error_check() {
 		return denominator == 0;
 	}
 	string write() {
-		if (error_check()) return "NaN";//ÎŞÒâÒå
+		if (error_check()) return "NaN";//æ— æ„ä¹‰
 		string ans;
 		ll de = numerator / denominator, tmp = numerator - de * denominator;
 		if (numerator >= denominator) {
@@ -110,7 +110,14 @@ Fraction autoCal(Fraction x, string op, Fraction y) {
 	if (op == "+") return x + y;
 	else if (op == "-") return x - y;
 	else if (op == "*") return x * y;
-	else if (op == "¡Â") return x / y;
-	else return Fraction();//ÔËËã·û´íÎó,·µ»Ø¿Õ·ÖÊıÀà
+	else if (op == "Ã·") return x / y;
+	else return Fraction();//è¿ç®—ç¬¦é”™è¯¯,è¿”å›ç©ºåˆ†æ•°ç±»
 }
 
+int getPriority(string x) {//å¾—åˆ°è¿ç®—ç¬¦ä¼˜å…ˆçº§
+	if (x == "+") return 1;
+	else if (x == "-") return 1;
+	else if (x == "*") return 2;
+	else if (x == "Ã·") return 2;
+	else return 0;//æœªçŸ¥å­—ç¬¦é»˜è®¤ä¼˜å…ˆçº§æœ€ä½
+}
