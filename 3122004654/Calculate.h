@@ -1,12 +1,12 @@
 #pragma once
 #include "Fraction.h"
 
-string calculate(string eq) {
+string calculate(string eq) {//è®¡ç®—å­—ç¬¦ä¸²å½¢å¼çš„å››åˆ™è¿ç®—å…¬å¼å¯¹åº”ç­”æ¡ˆ
     stack<string> opt;
     queue<pair<string, Fraction>> postOrder;
     size_t last = 0;
-    for (size_t i = 0; i < eq.size(); i++) { //Çóºó×º±í´ïÊ½
-        if (eq[i] == '=') {//ËãÊ½´æÔÚµÈÓÚºÅ£¬¼ÓÔØ×îºóÒ»¸öÊı×Ö
+    for (size_t i = 0; i < eq.size(); i++) { //æ±‚åç¼€è¡¨è¾¾å¼
+        if (eq[i] == '=') {//ç®—å¼å­˜åœ¨ç­‰äºå·ï¼ŒåŠ è½½æœ€åä¸€ä¸ªæ•°å­—
             if (last != i)
                 postOrder.push({ "",Fraction(stringToFraction(eq.substr(last,i - last))) });
             last = i + 1;
@@ -22,7 +22,7 @@ string calculate(string eq) {
             }
             opt.push(eq.substr(i, 1));
         }
-        else if (eq.substr(i, 2) == "¡Â") { 
+        else if (eq.substr(i, 2) == "Ã·") { 
             if (last != i)
                 postOrder.push({ "",Fraction(stringToFraction(eq.substr(last,i - last))) });
             last = i + 2;
@@ -47,14 +47,14 @@ string calculate(string eq) {
             opt.pop();
         }
     }
-    if (last < eq.size())//ËãÊ½²»´æÔÚµÈÓÚºÅÊ±£¬¼ÓÔØ×îºóÒ»¸öÊı×Ö
+    if (last < eq.size())//ç®—å¼ä¸å­˜åœ¨ç­‰äºå·æ—¶ï¼ŒåŠ è½½æœ€åä¸€ä¸ªæ•°å­—
        postOrder.push({ "",Fraction(stringToFraction(eq.substr(last))) });
     while (!opt.empty()) {
         postOrder.push({ opt.top(),Fraction() });
         opt.pop();
     }
     stack<Fraction> st;
-    while (!postOrder.empty())
+    while (!postOrder.empty())//æ ¹æ®åç¼€è¡¨è¾¾å¼å®Œæˆç­”æ¡ˆçš„è¿ç®—
     {
         if (postOrder.front().first != "") {
             Fraction fra1 = st.top(); st.pop();
@@ -69,7 +69,7 @@ string calculate(string eq) {
     return st.top().write();
 }
 
-void checkexample(ifstream &fileExample,ifstream &fileAnswer) {
+void checkexample(ifstream &fileExample,ifstream &fileAnswer) {//é€è¡Œè¯»å–æ–‡ä»¶å¹¶å°†ç­”æ¡ˆæ¯”è¾ƒ
     string example, answer;
     vector<int> correct, wrong;
     while (getline(fileExample, example)) {
@@ -90,7 +90,6 @@ void checkexample(ifstream &fileExample,ifstream &fileAnswer) {
     ofstream fileGrade("Grade.txt");
     fileGrade << "Correct:" << correct.size() << "(";
     for (size_t i = 0; i < correct.size();i++) {
-
         fileGrade << correct[i];
         if (i + 1 != correct.size())
             fileGrade << ',';
@@ -98,7 +97,6 @@ void checkexample(ifstream &fileExample,ifstream &fileAnswer) {
     fileGrade << ")\n";
     fileGrade << "Wrong:" << wrong.size() << "(";
     for (size_t i = 0; i < wrong.size(); i++) {
-
         fileGrade << wrong[i];
         if (i + 1 != wrong.size())
             fileGrade << ',';
