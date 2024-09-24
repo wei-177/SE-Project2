@@ -106,6 +106,40 @@ public:
 	}
 };
 
+Fraction stringToFraction(string s) {//不支持负数
+	size_t i = 0, j = 0;
+	ll integer = 0, numerator = -1, denominator;
+	for (; i < s.size(); i++) {
+		if (s[i] == '\'') {
+			integer = stoll(s.substr(0, i));
+			break;
+		}
+		if (s[i] == '/') {
+			numerator = stoll(s.substr(0, i));
+			break;
+		}
+	}
+	if (numerator == -1 && i < s.size()) {
+		j++;
+		for (; i + j < s.size(); j++) {
+			if (s[i + j] == '/') {
+				numerator = stoll(s.substr(i + 1, j - 1));
+				break;
+			}
+		}
+		denominator = stoll(s.substr(i + j + 1));
+	}
+	else if (numerator == -1 && i == s.size()) {
+		integer = stoll(s.substr(0));
+		numerator = 0;
+		denominator = 1;
+	}
+	else {
+		denominator = stoll(s.substr(i + j + 1));
+	}
+	return Fraction(integer * denominator + numerator, denominator);
+}
+
 Fraction autoCal(Fraction x, string op, Fraction y) {
 	if (op == "+") return x + y;
 	else if (op == "-") return x - y;
