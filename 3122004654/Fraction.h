@@ -14,7 +14,7 @@ class Fraction {
 private:
 	ll numerator, denominator;//用假分数存储
 	void reduction() {//通分
-		if (denominator == 0) return;//分母为零调整失败
+		if (denominator == 0) return;//分母为零通分失败
 		ll numsign = 1, densign = 1;
 		if (numerator < 0 && denominator < 0)
 			numerator *= -1, denominator *= -1;
@@ -106,7 +106,7 @@ public:
 	}
 };
 
-Fraction stringToFraction(string s) {//不支持负数
+Fraction stringToFraction(string s) {//将合法字符串转化为分数，不支持负数
 	size_t i = 0, j = 0;
 	ll integer = 0, numerator = -1, denominator;
 	for (; i < s.size(); i++) {
@@ -140,7 +140,7 @@ Fraction stringToFraction(string s) {//不支持负数
 	return Fraction(integer * denominator + numerator, denominator);
 }
 
-Fraction autoCal(Fraction x, string op, Fraction y) {
+Fraction autoCal(Fraction x, string op, Fraction y) {//识别运算符字符串,进行分数的四则运算
 	if (op == "+") return x + y;
 	else if (op == "-") return x - y;
 	else if (op == "*") return x * y;
