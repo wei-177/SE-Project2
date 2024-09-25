@@ -1,7 +1,7 @@
 #pragma once
 #include "Fraction.h"
 
-string calculate(string eq) {//计算字符串形式的四则运算公式对应答案
+string calculate(string eq) {//仅当eq符合文本要求才能正确运算得到答案，否则抛出异常
     stack<string> opt;
     queue<pair<string, Fraction>> postOrder;
     size_t last = 0;
@@ -40,11 +40,11 @@ string calculate(string eq) {//计算字符串形式的四则运算公式对应�
             if (last != i)
                 postOrder.push({ "",Fraction(stringToFraction(eq.substr(last,i - last))) });
             last = i + 1;
-            while (opt.top() != "(") {
+            while (!opt.empty() && opt.top() != "(") {
                 postOrder.push({ opt.top(),Fraction() });
                 opt.pop();
             }
-            opt.pop();
+            if(!opt.empty()) opt.pop();
         }
     }
     if (last < eq.size())//算式不存在等于号时，加载最后一个数字
@@ -54,11 +54,13 @@ string calculate(string eq) {//计算字符串形式的四则运算公式对应�
         opt.pop();
     }
     stack<Fraction> st;
-    while (!postOrder.empty())//根据后缀表达式完成答案的运算
+    while (!postOrder.empty())
     {
         if (postOrder.front().first != "") {
-            Fraction fra1 = st.top(); st.pop();
-            Fraction fra2 = st.top(); st.pop();
+            Fraction fra1 = st.top(); 
+            if(!st.empty()) st.pop();
+            Fraction fra2 = st.top(); 
+            if(!st.empty()) st.pop();
             st.push(autoCal(fra2, postOrder.front().first, fra1));
         }
         else {
@@ -66,10 +68,12 @@ string calculate(string eq) {//计算字符串形式的四则运算公式对应�
         }
         postOrder.pop();
     }
+    if (st.empty())
+        throw out_of_range("Index out of range");
     return st.top().write();
 }
 
-void checkexample(ifstream &fileExample,ifstream &fileAnswer) {//逐行读取文件并将答案比较
+void checkexample(ifstream &fileExample,ifstream &fileAnswer) {
     string example, answer;
     vector<int> correct, wrong;
     while (getline(fileExample, example)) {
@@ -81,11 +85,16 @@ void checkexample(ifstream &fileExample,ifstream &fileAnswer) {//逐行读取文
             else if (example[i - 1] == ' ' && example[i] != ' ')
                 break;
         }
-        string tmp = calculate(example.substr(i));
-        if (calculate(example.substr(i)) == answer.substr(i))
-            correct.push_back(stol(example.substr(0, j)));
-        else
-            wrong.push_back(stol(example.substr(0, j)));
+        try {
+            if (calculate(example.substr(i)) == answer.substr(i))
+                correct.push_back(stol(example.substr(0, j)));
+            else
+                wrong.push_back(stol(example.substr(0, j)));
+        }
+        catch (const exception& e) { // 如果捕获到std标准异常,出现异常说明输入文本不合法
+            throw "样例或答案不合法,无法比较";
+            return;
+        }
     }
     ofstream fileGrade("Grade.txt");
     fileGrade << "Correct:" << correct.size() << "(";
