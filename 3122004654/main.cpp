@@ -3,11 +3,11 @@
 
 int main(int argc, char* argv[]){
 	if (!(argc == 3 || argc == 5)) {
-		cout << "ÊäÈë´íÎó,³ÌÐò½áÊø" << endl;
+		cout << "è¾“å…¥é”™è¯¯,ç¨‹åºç»“æŸ" << endl;
 		system("pause");
 		return 0;
 	}
-	bool opt[4] = { 0 };//·Ö±ð¼ì²âÊÇ·ñÓÐ-n,-r,-e,-a
+	bool opt[4] = { 0 };//åˆ†åˆ«æ£€æµ‹æ˜¯å¦æœ‰-n,-r,-e,-a
 	for (int i = 1; i < argc; i += 2)
 	{
 		if (strcmp(argv[i], "-n") == 0)
@@ -22,23 +22,23 @@ int main(int argc, char* argv[]){
 	if (opt[0]) {
 		countLimit = strtol(argv[2], NULL, 0);
 		if (countLimit <= 0) {
-			cout << "ÒªÇóÉú³ÉÌâÄ¿ÊýÁ¿´íÎó£¬³ÌÐò½áÊø" << endl;
+			cout << "è¦æ±‚ç”Ÿæˆé¢˜ç›®æ•°é‡é”™è¯¯ï¼Œç¨‹åºç»“æŸ" << endl;
 			return 0;
 		}
 		if (opt[1]) {
 			numLimit = strtol(argv[4], NULL, 0);
 			if (numLimit <= 0) {
-				cout << "ÒªÇóÉú³ÉÊý¾Ý·¶Î§´íÎó£¬³ÌÐò½áÊø" << endl;
+				cout << "è¦æ±‚ç”Ÿæˆæ•°æ®èŒƒå›´é”™è¯¯ï¼Œç¨‹åºç»“æŸ" << endl;
 				return 0;
 			}
 		}
 		else
-			numLimit = 10;//Ä¬ÈÏÎª10
-		srand(time(NULL));//Ëæ»úÊýÉú³É
+			numLimit = 10;//é»˜è®¤ä¸º10
+		srand(time(NULL));//éšæœºæ•°ç”Ÿæˆ
 		ofstream fileExample("Exercises.txt");
 		ofstream fileAnswer("Answers.txt");
 		if (fileExample.fail() || fileAnswer.fail()) {
-			cout << "ÎÄ¼þÂ·¾¶´íÎó" << endl;
+			cout << "æ–‡ä»¶è·¯å¾„é”™è¯¯" << endl;
 			return 0;
 		}
 		int count = 1;
@@ -51,23 +51,28 @@ int main(int argc, char* argv[]){
 		}
 		fileExample.close();
 		fileAnswer.close();
-		cout << "ËãÊ½Éú³É³É¹¦" << endl;
+		cout << "ç®—å¼ç”ŸæˆæˆåŠŸ" << endl;
 	}
 	else if (opt[2] && opt[3])
 	{
 		ifstream fileExample("Exercises.txt");
 		ifstream fileAnswer("Answers.txt");
 		if (fileExample.fail() || fileAnswer.fail()) {
-			cout << "ÎÄ¼þÂ·¾¶´íÎó" << endl;
+			cout << "æ–‡ä»¶è·¯å¾„é”™è¯¯" << endl;
 			return 0;
 		}
-		checkexample(fileExample, fileAnswer);
+		try {
+			checkexample(fileExample, fileAnswer);
+			cout << "ç­”æ¡ˆæ¯”è¾ƒå®Œæˆ" << endl;
+		}
+		catch (const char* msg) { // æ•èŽ·å…¶ä»–æ ‡å‡†å¼‚å¸¸
+			cout << msg << endl;
+		}
 		fileExample.close();
 		fileAnswer.close();
-		cout << "´ð°¸±È½ÏÍê³É" << endl;
 	}
 	else{
-		cout << "ÊäÈë²Ù×÷·û²»ÕýÈ·£¬³ÌÐò½áÊø" << endl;
+		cout << "è¾“å…¥æ“ä½œç¬¦ä¸æ­£ç¡®ï¼Œç¨‹åºç»“æŸ" << endl;
 	}
 	return 0;
 }
