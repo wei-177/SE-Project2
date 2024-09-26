@@ -86,10 +86,10 @@ Node getRandomEquation(unordered_set<string> &vis) {
 			List[id].bracketadd = true;
 		}
 
-		if ((List[id].op == "+" || List[id].op == "*") && List[lid].checkeq > List[rid].checkeq)//check全程加括号才能保证查重正确性
-			List[id].checkeq = '(' + List[rid].checkeq + List[id].checkeq + List[lid].checkeq + ')';
+		if ((List[id].op == "+" || List[id].op == "*") && List[lid].checkeq > List[rid].checkeq)//统一可交换数字节点字典序以获得查重字符串
+			List[id].checkeq = List[rid].checkeq + List[id].checkeq + List[lid].checkeq;
 		else
-			List[id].checkeq = '(' + List[lid].checkeq + List[id].checkeq + List[rid].checkeq + ')';
+			List[id].checkeq = List[lid].checkeq + List[id].checkeq + List[rid].checkeq;
 
 		List[id].r = List[rid].r;
 		List[id].l = List[lid].l;
