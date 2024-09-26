@@ -1,9 +1,8 @@
 #include "EquationGenerate.h"
 #include "Calculate.h"
-
 int main(int argc, char* argv[]){
 	if (!(argc == 3 || argc == 5)) {
-		cout << "输入错误,程序结束" << endl;
+		cout << "输入错误，程序结束" << endl;
 		system("pause");
 		return 0;
 	}
@@ -42,21 +41,25 @@ int main(int argc, char* argv[]){
 			return 0;
 		}
 		int count = 1;
+		unordered_set<string> vis;//记录重复算式
 		while (count <= countLimit) {
-			Node ans = getRandomEquation();
+			Node ans = getRandomEquation(vis);
 			if (ans.checkeq == "") continue;
 			fileExample << count << ".  " << ans.eq << "=" << endl;
 			fileAnswer << count << ".  " << ans.fr.write() << endl;
 			count++;
 		}
+		vis.clear();
 		fileExample.close();
 		fileAnswer.close();
 		cout << "算式生成成功" << endl;
 	}
 	else if (opt[2] && opt[3])
 	{
-		ifstream fileExample("Exercises.txt");
-		ifstream fileAnswer("Answers.txt");
+		if (strcmp(argv[2], "-a") == 0)
+			swap(argv[3], argv[5]);
+		ifstream fileExample(argv[3]);
+		ifstream fileAnswer(argv[5]);
 		if (fileExample.fail() || fileAnswer.fail()) {
 			cout << "文件路径错误" << endl;
 			return 0;
