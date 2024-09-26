@@ -36,10 +36,6 @@ int main(int argc, char* argv[]){
 		srand(time(NULL));//随机数生成
 		ofstream fileExample("Exercises.txt");
 		ofstream fileAnswer("Answers.txt");
-		if (fileExample.fail() || fileAnswer.fail()) {
-			cout << "文件路径错误" << endl;
-			return 0;
-		}
 		int count = 1;
 		unordered_set<string> vis;//记录重复算式
 		while (count <= countLimit) {
