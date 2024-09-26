@@ -1,9 +1,8 @@
 #include "EquationGenerate.h"
 #include "Calculate.h"
 int main(int argc, char* argv[]){
-	if (!(argc == 3 || argc == 5)) {
+	if (argc != 3 && argc != 5) {
 		cout << "输入错误，程序结束" << endl;
-		system("pause");
 		return 0;
 	}
 	bool opt[4] = { 0 };//分别检测是否有-n,-r,-e,-a
