@@ -51,10 +51,10 @@ int main(int argc, char* argv[]){
 	}
 	else if (opt[2] && opt[3])
 	{
-		if (strcmp(argv[2], "-a") == 0)
-			swap(argv[3], argv[5]);
-		ifstream fileExample(argv[3]);
-		ifstream fileAnswer(argv[5]);
+		if (strcmp(argv[1], "-a") == 0)
+			swap(argv[2], argv[4]);
+		ifstream fileExample(argv[2]);
+		ifstream fileAnswer(argv[4]);
 		if (fileExample.fail() || fileAnswer.fail()) {
 			cout << "文件路径错误" << endl;
 			return 0;
