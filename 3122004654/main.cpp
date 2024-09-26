@@ -75,7 +75,7 @@ int main(int argc, char* argv[]){
 			checkexample(fileExample, fileAnswer);
 			cout << "答案比较完成" << endl;
 		}
-		catch (const char* msg) { // 捕获其他标准异常
+		catch (const char* msg) { // 捕获异常
 			cout << msg << endl;
 		}
 		fileExample.close();
