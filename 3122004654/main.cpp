@@ -79,14 +79,14 @@ int main(int argc, char* argv[]){
 			cout << msg << endl;
 			fileExample.close();
 			fileAnswer.close();
-			return 4;
+			return 6;
 		}
 		fileExample.close();
 		fileAnswer.close();
 	}
 	else{
 		cout << "输入操作符不正确，程序结束" << endl;
-		return 5;
+		return 7;
 	}
 	return 0;
 }
