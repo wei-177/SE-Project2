@@ -78,7 +78,7 @@ void checkexample(ifstream &fileExample,ifstream &fileAnswer) {
     vector<int> correct, wrong;
     while (getline(fileExample, example)) {
         getline(fileAnswer, answer);
-        size_t i = 1, j;
+        size_t i = 1, j = 1;
         for (; i < example.size(); i++) {
             if (example[i] == '.')
                 j = i;
@@ -93,7 +93,6 @@ void checkexample(ifstream &fileExample,ifstream &fileAnswer) {
         }
         catch (const exception& e) { // 如果捕获到std标准异常,出现异常说明输入文本不合法
             throw "样例或答案不合法,无法比较";
-            return;
         }
     }
     ofstream fileGrade("Grade.txt");
